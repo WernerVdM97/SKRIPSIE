@@ -2,6 +2,7 @@ import nltk
 import torch.nn.functional as F
 import numpy as np
 import torch
+from nltk.corpus import stopwords
 
 #processing tokens
 import unicodedata 
@@ -40,6 +41,9 @@ def remove_punctuation(words):
         new_word = re.sub(r'[^\w\s]', '', word)
         if new_word != '':
             new_words.append(new_word)
+        if word == '.':
+            new_words.append('</s>')
+            new_words.append('<s>')
     return new_words
 
 def replace_numbers(words):
@@ -63,48 +67,50 @@ def remove_stopwords(words):
     return new_words
 
 
-def normalize(words):
+def normalize(words,stop = False):
     words = remove_non_ascii(words)
     words = to_lowercase(words)
     words = remove_punctuation(words)
     words = replace_numbers(words)
-    #words = remove_stopwords(words)
+    if stop == True:
+        words = remove_stopwords(words)
     return words
 #######################################################################
 
 #########################read file and process##############################################
-def ReadAndProcess(path):
-    file = open(path).read()
-
+def ReadAndProcess(path, tupleSize, stop):
+    print('Loading file...')
     start = time.time()
-    sentences = sent_tokenize(file)
-    tokenised_sentences = []
+
+    file = open(path).read()
     tokens = word_tokenize(file)
 
-    # now loop over each sentence and tokenize it separately
-    for sentence in sentences:
-        tokenised_sentences.append(word_tokenize(sentence))
-
     end = time.time()
-    print('Loading file...')
     print(end-start)
 
+    print('Pre-processing...')
     start = time.time()
-    data_sen = []
 
-    for x in range(len(tokenised_sentences)):
-        data_sen.append(normalize(tokenised_sentences[x]))
+    data_tokens = normalize(tokens, stop)
+    data_tokens.insert(0,'<s>')
+    data_tokens.pop(-1)
 
-    data_tokens = normalize(tokens)
+    #create trigram and bigram frequency distribution from file
+    myngrams = ngrams(data_tokens, tupleSize)
+    ng_list = list(myngrams)
 
-    #create frequency distribution from file
-    trigrams = ngrams(data_tokens, 3)
-    tg_list = list(trigrams)
-    fd = nltk.FreqDist(tg_list)
+    #remove </s> followed by <s> cases
+    x = 0
+    while x < len(ng_list):
+        for y in range(len(ng_list[x])-1):
+            if ng_list[x][y] == '</s>' and ng_list[x][y+1] == '<s>':
+                ng_list.pop(x)
+                x = x - 1   
+        x=x+1
 
+    fd = nltk.FreqDist(ng_list)
     end = time.time()
 
-    print('Pre-processing...')
     print(end-start)
 
     return fd
