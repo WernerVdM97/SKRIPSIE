@@ -1,4 +1,4 @@
-## This skripsie includes:
+## This repository includes:
   - Feature extraction given a file containing n-grams with their counts
   - The target output is taken from a smoothed language model in ARPA format
   - Training of a neural network to produce a discounted probability for each n-gram
