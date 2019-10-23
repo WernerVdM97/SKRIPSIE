@@ -10,4 +10,6 @@
   - Rewriting these probabilties and discounting them to an existing unsmoothed language model in ARPA format
  
 
-Other files included are examples of basic interactions with neural networks and language modeling
+###Other files included are examples of basic interactions with neural networks and language modeling
+
+##Lastly we Analyze and compare results
