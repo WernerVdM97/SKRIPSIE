@@ -1,5 +1,4 @@
-# Neural networks for language model
-smoothing
+# Neural networks for language model smoothing
 
 Smoothing is critical to ensure a language model performs accurately even in the event of
 data sparseness.. In this report, we investigate if it is possible to smooth a language model
