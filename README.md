@@ -15,7 +15,7 @@ prevent over-estimation.
 
 ## This repository includes:
 
-- A report of the entire project, https://github.com/WernerVdM97/SKRIPSIE/blob/master/project%20report.pdf
+- A (report of the entire project)[https://github.com/WernerVdM97/SKRIPSIE/blob/master/project%20report.pdf]
 - All code implemented.
 
 ## Self-written code for:
