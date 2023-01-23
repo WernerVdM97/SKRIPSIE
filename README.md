@@ -1,7 +1,7 @@
 # Neural networks for language model smoothing
 
 Smoothing is critical to ensure a language model performs accurately even in the event of
-data sparseness.. In this report, we investigate if it is possible to smooth a language model
+data sparseness. In this report, we investigate if it is possible to smooth a language model
 with a neural network as well as determine if the neural network can address the over-
 estimation of events that sometimes occurs using current methods. Background material
 regarding current smoothing techniques such as Good-Turing smoothing is discussed. For
